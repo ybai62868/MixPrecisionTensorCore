@@ -26,21 +26,21 @@ from torch.cuda.amp import autocast as autocast
    'video', 'wide_resnet101_2', 'wide_resnet50_2'
 '''
 # model_name = "resnet18"
-model_name = "shufflenet_v2_x1_5"
+model_name = "mobilenet_v2"
 model = getattr(torchvision.models, model_name)(pretrained=False)
 
 # model = models.mobilenet(pretrained=False)
-model
-model = model.eval()
+model.half()
 # We grab the TorchScripted model via tracing
-input_shape = [1, 3, 224, 224]
-input_data = torch.randn(input_shape).cuda()
+input_shape = [128, 3, 224, 224]
+input_data = torch.randn(input_shape).cuda().half()
 model = model.cuda()
+model = model.eval()
 
 
 # print(model)
 
-for i in range(50):
+for i in range(20):
     output = model(input_data)
 
 avg_fwd_time = 0
@@ -48,7 +48,7 @@ for i in range(100):
     torch.cuda.synchronize()
     start = time.time()
     with torch.no_grad():
-        with autocast():
+        # with autocast():
             output = model(input_data)
     torch.cuda.synchronize()
     end = time.time()

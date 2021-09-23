@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from nvstatsrecorder.recorders import NVStatsRecorder
 torch.backends.cudnn.benchmark = False
 
+
 batch_size = 1
 height = 224
 width = 224
@@ -33,7 +34,7 @@ def standard_conv(num, x):
         avg_fwd_time1 += fwd_time
     avg_fwd_time1= avg_fwd_time1 / 100
     print("TFLOPS in conv: ", batch_size*FLOPs/1e12/avg_fwd_time1)
-    return 1000/avg_fwd_time1
+    return 1/avg_fwd_time1
 
 
 def depthwise_sep(num, x):
@@ -60,7 +61,7 @@ def depthwise_sep(num, x):
     avg_fwd_time2 = avg_fwd_time2 / 100   
     print("TFLOPS in depthwise_sep: ", batch_size * FLOPs/1e12/avg_fwd_time2)
 
-    return 1000/avg_fwd_time2
+    return 1/avg_fwd_time2
 
 
 

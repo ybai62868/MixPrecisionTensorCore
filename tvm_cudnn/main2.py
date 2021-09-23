@@ -27,6 +27,7 @@ torch.backends.cudnn.benchmark = True
 # model_name = "resnet18"
 model_name = "resnet18"
 model = getattr(torchvision.models, model_name)(pretrained=False)
+model.half()
 model = model.eval()
 # We grab the TorchScripted model via tracing
 input_shape = [1, 3, 224, 224]
