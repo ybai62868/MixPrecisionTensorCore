@@ -26,7 +26,7 @@ from torch.cuda.amp import autocast as autocast
 model = torchvision.models.mobilenet_v2(pretrained=False)
 device = torch.device("cuda")
 model.to(device)
-dummy_input = torch.randn(64, 3,224,224).to(device)
+dummy_input = torch.randn(1, 3, 224, 224).to(device)
 starter, ender = torch.cuda.Event(enable_timing=True), torch.cuda.Event(enable_timing=True)
 repetitions = 300
 timings=np.zeros((repetitions,1))

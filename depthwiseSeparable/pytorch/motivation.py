@@ -33,7 +33,7 @@ def standard_conv():
     FLOPs = batch_size * kh * kw * oc * ic * oh * ow
     print("MFLOPs in conv: ", FLOPs/1e6)
     out = conv(x)
-
+    print(out.size())
     for _ in range(10):
         out = conv(x)
     
@@ -69,7 +69,8 @@ def depthwise_sep():
         padding=pad,
         dilation=dilation,
         groups=group,
-        ).cuda()
+        )
+
     point_conv = nn.Conv2d(
         in_channels=ic, 
         out_channels=oc, 
@@ -80,7 +81,7 @@ def depthwise_sep():
     print("MFLOPs in DSC: ", FLOPs/1e6)
 
     out_depthwise = depthwise_separable_conv(x)
-
+    print(out_depthwise.size())
     for i in range(10):
         ouput = depthwise_separable_conv(x)
     
@@ -106,7 +107,18 @@ def depthwise_sep():
     # print("Total memory access in depthwise_sep: ", dw_param_mem + pw_param_mem + feature_mem)
 
 
+def diagonal_matrix():
+    matrix_dw = torch.randn((ic, ic * kh * kw))
+    matrix_im = torch.randn((ic * kh * kw, oh * ow))
+    output_dw = torch.mm(matrix_dw, matrix_im)
+    print(output_dw.size())
+    matrix_pw = torch.randn((oc, ic))
+    output_dsc = torch.mm(matrix_pw, output_dw)
+    print(output_dsc.size())
+
+
 if __name__ == "__main__":
     standard_conv()
     depthwise_sep()
+    diagonal_matrix()
     

@@ -80,7 +80,7 @@ log_file = "%s-%s-B%d-%s.json" % (network, layout, batch_size, target.kind.name)
 # Extract tasks from the network
 print("Extract tasks...")
 mod, params, input_shape, output_shape = get_network(network, batch_size, layout, dtype=dtype)
-print(mod)
+# print(mod)
 
 # import pdb;pdb.set_trace()
 tasks, task_weights = auto_scheduler.extract_tasks(mod["main"], params, target)
