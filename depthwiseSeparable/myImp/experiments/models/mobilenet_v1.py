@@ -32,12 +32,25 @@ class Block(nn.Module):
             groups=1,
             bias=False)
         self.bn2 = nn.BatchNorm2d(out_planes)
-    
+
+    # def forward(self, x):
+    #     out = F.relu(self.bn1(self.conv1(x)))
+    #     out = F.relu(self.bn2(self.conv2(out)))
+    #     return out
+
     def forward(self, x):
+        # print("{}".format(cnt))
         out = F.relu(self.bn1(self.conv1(x)))
-        # print("Output Feature Map of DW: ", out.size())
+        print("Output Feature Map of DW: ", out.size())
+        in_channels = out.shape[1]
+        print("GEMM A %d, %d X %d, %d  " % 
+        (out.shape[1], out.shape[1]*3*3, out.shape[1]*3*3, out.shape[2] * out.shape[2]))
         out = F.relu(self.bn2(self.conv2(out)))
-        # print("Output Feature Map of PW: ", out.size())
+        print("Output Feature Map of PW: ", out.size())
+        print("GEMM B %d, %d X %d, %d " % 
+        (out.shape[1], in_channels, in_channels, out.shape[2] * out.shape[2]))
+        # print("Matrix B [%d, %d] " % (out.shape[]))
+
         return out
 
 
@@ -103,5 +116,5 @@ def mobilenet_v1(pretrained: bool = False, progress: bool = True) -> MobileNet:
 
 
 
-# if __name__ == "__main__":
-#     test()
+if __name__ == "__main__":
+    test()
