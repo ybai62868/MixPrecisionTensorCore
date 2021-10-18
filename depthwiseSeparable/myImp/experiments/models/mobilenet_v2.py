@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 from typing import Callable, Any, Optional, List
-from ._internally_replaced_utils import load_state_dict_from_url
+# from ._internally_replaced_utils import load_state_dict_from_url
 
 __all__ = ["MobileNetV2", "mobilenet_v2"]
 
@@ -73,12 +73,12 @@ class InvertedResidual(nn.Module):
 
         layers: List[nn.Module] = []
         if expand_ratio != 1:
-            # pw
+            # 1x1 pw
             layers.append(ConvBNReLU(inp, hidden_dim, kernel_size=1, norm_layer=norm_layer))
         layers.extend([
-            # dw
+            # 3x3 dw
             ConvBNReLU(hidden_dim, hidden_dim, stride=stride, groups=hidden_dim, norm_layer=norm_layer),
-            # pw-linear
+            # 1x1 pw-linear
             nn.Conv2d(hidden_dim, oup, 1, 1, 0, bias=False),
             norm_layer(oup),
         ])
@@ -88,7 +88,9 @@ class InvertedResidual(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         if self.use_res_connect:
-            return x + self.conv(x)
+            out = self.conv(x)
+            print("Out shape:", out.size())
+            return x + out
         else:
             return self.conv(x)
 

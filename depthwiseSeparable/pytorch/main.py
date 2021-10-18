@@ -19,3 +19,5 @@ print(f"The standard convolution uses {params} parameters.")
 print(f"The depthwise separable convolution uses {params_depthwise} parameters.")
 
 assert out.shape == out_depthwise.shape, "Size mismatch"
+
+

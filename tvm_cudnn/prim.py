@@ -74,7 +74,10 @@ A0 = te.placeholder((m, n), name = "A0")
 A1 = te.placeholder((m, n), name = "A1")
 B0 = te.compute((m, n), lambda i, j: A0[i, j] * 2, name = "B0")
 B1 = te.compute((m, n), lambda i, j: A1[i, j] + 5, name = "B1")
+
 s0 = te.create_schedule(B0.op) 
 print(tvm.lower(s0, [A0, A1, B0, B1], simple_mode = True))
 s1 = te.create_schedule(B1.op)
 print(tvm.lower(s1, [A0, A1, B0, B1], simple_mode = True))
+
+

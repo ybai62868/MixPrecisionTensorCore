@@ -40,6 +40,8 @@ model = model.eval()
 
 # print(model)
 
+
+# warm-up
 for i in range(20):
     output = model(input_data)
 

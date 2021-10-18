@@ -47,7 +47,7 @@ def get_network(model_name, batch_size, layout="NCHW", dtype="float32"):
     if "resnet" in model_name:
         model = getattr(torchvision.models, model_name)(pretrained=True)
         model = model.cuda()
-        model = model.eval()
+        model.eval()
         scripted_model = torch.jit.trace(model, input_data).eval().cuda()
         mod, params = relay.frontend.from_pytorch(scripted_model, shape_list)
     elif "mobile" in model_name:

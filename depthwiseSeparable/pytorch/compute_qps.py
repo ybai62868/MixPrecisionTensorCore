@@ -8,7 +8,7 @@ from thop import profile
 # peak FP32 14.2 TFLOPS
 # peak FP16 28.5 TFLOPS
 # Intensity-FP32 23
-# Intensity-FP16 46.2
+# Intensity-FP16 46.2 FLOP/Byte
 
 optimal_batch_size = 114
 model = torchvision.models.mobilenet_v2(pretrained=False)

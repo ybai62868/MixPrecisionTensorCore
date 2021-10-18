@@ -20,7 +20,7 @@ def conv2d_layer(N, H, W, CO, CI, KH, KW, stride, padding):
     bias = te.placeholder((1, CO, 1, 1), name="bias")
     # conv = topi.nn.conv2d_nchw(data, kernel, stride, padding, dilation=1, out_dtype="float32")
     conv = topi.nn.depthwise_conv2d_nchw(data, kernel, stride, padding, dilation=1, out_dtype="float32")
-
+    
     out = topi.nn.relu(conv + bias)
     return [data, kernel, bias, out]
 

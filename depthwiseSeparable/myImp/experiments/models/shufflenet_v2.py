@@ -1,7 +1,7 @@
 import torch
 from torch import Tensor
 import torch.nn as nn
-from ._internally_replaced_utils import load_state_dict_from_url
+# from ._internally_replaced_utils import load_state_dict_from_url
 from typing import Callable, Any, List
 
 
@@ -88,8 +88,11 @@ class InvertedResidual(nn.Module):
         if self.stride == 1:
             x1, x2 = x.chunk(2, dim=1)
             out = torch.cat((x1, self.branch2(x2)), dim=1)
+            print("stride == 1, branch2", self.branch2(x2).size())
         else:
             out = torch.cat((self.branch1(x), self.branch2(x)), dim=1)
+            print("stride == 2, branch1", self.branch1(x).size())
+            print("stride == 2, branch2", self.branch2(x).size())
 
         out = channel_shuffle(out, 2)
 
@@ -225,3 +228,14 @@ def shufflenet_v2_x2_0(pretrained: bool = False, progress: bool = True, **kwargs
     """
     return _shufflenetv2('shufflenetv2_x2.0', pretrained, progress,
                          [4, 8, 4], [24, 244, 488, 976, 2048], **kwargs)
+
+
+def test():
+    net = shufflenet_v2_x2_0()
+    x = torch.randn((1, 3, 224, 224))
+    y = net(x)
+    print(y.size())
+
+
+if __name__ == "__main__":
+    test()
